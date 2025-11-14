@@ -11,17 +11,24 @@
 
     <style>
         body {
-            background: #f2f6fa;
+            width: 100%;
+            background:rgb(249, 248, 249);
             font-family: "Inter", sans-serif;
         }
         .banner {
             width: 100%;
-            height: 220px;
-            background-image: url('https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            height: 500px;
+            background-image:url({{ url_for('static', filename='img/innovation_banner.png') }});
             background-size: cover;
             background-position: center;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .card{
+            background:rgb(181, 232, 249);
+        }
+        .title{
+            color: black;
         }
         .card-custom {
             border-radius: 12px;
@@ -39,12 +46,12 @@
 
 <body>
 
-<div class="container py-4">
+<div class="container">
 
     <div class="banner mb-4"></div>
 
-    <div class="card card-custom p-4">
-        <h2 class="mb-3 text-center text-primary fw-bold">Dự báo Doanh số — LR & RF</h2>
+    <div class="card card-custom p-4 ">
+        <h2 class=" title mb-3 text-center fw-bold">Dự báo Doanh số — LR & RF</h2>
         <p class="text-center text-muted mb-4">Upload file CSV và chọn mô hình dự báo</p>
 
         <form action="/" method="post" enctype="multipart/form-data">
