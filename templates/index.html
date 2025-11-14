@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sales Forecast App — LR & RF</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f2f6fa;
+            font-family: "Inter", sans-serif;
+        }
+        .banner {
+            width: 100%;
+            height: 220px;
+            background-image: url('https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .card-custom {
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+        .result-box {
+            background: #fff;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 6px solid #0d6efd;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-4">
+
+    <div class="banner mb-4"></div>
+
+    <div class="card card-custom p-4">
+        <h2 class="mb-3 text-center text-primary fw-bold">Dự báo Doanh số — LR & RF</h2>
+        <p class="text-center text-muted mb-4">Upload file CSV và chọn mô hình dự báo</p>
+
+        <form action="/" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label for="fileUpload" class="form-label fw-semibold">Chọn file CSV</label>
+                <input class="form-control form-control-lg" type="file" name="file" id="fileUpload" accept=".csv" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Chọn phương pháp</label>
+                <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="method" id="lr" value="lr" checked>
+                        <label class="form-check-label" for="lr">Linear Regression</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="method" id="rf" value="rf">
+                        <label class="form-check-label" for="rf">Random Forest</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg w-100 mt-3">
+                🚀 Chạy dự báo
+            </button>
+
+        </form>
+
+        {% if error %}
+        <div class="alert alert-danger mt-4">{{ error }}</div>
+        {% endif %}
+
+        {% if result %}
+        <hr class="my-4">
+
+        <div class="result-box mb-4">
+            <h4 class="fw-bold text-primary">📊 Kết quả — {{ method_name }}</h4>
+            <ul class="mb-0">
+                <li><b>R²:</b> {{ result.r2 }}</li>
+                <li><b>RMSE:</b> {{ result.rmse }}</li>
+                <li><b>MAPE:</b> {{ result.mape }} (Lưu ý: MAPE có thể không ổn định nếu y_test có giá trị 0)</li>
+                <li><b>Dự báo tháng 13 (ví dụ):</b> {{ result.forecast }} đơn vị</li>
+            </ul>
+        </div>
+
+        <h5 class="fw-semibold">Biểu đồ: Thực tế vs Dự báo (Test Set)</h5>
+        <img src="data:image/png;base64,{{ plot_png }}" class="img-fluid rounded shadow-sm border">
+
+        {% endif %}
+
+        <p class="text-muted mt-4 mb-0">
+            Yêu cầu CSV: các cột
+            <code>promo, temp, month_sin, month_cos, sales</code>
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>
